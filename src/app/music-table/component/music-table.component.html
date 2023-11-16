@@ -1,0 +1,38 @@
+<div class="wrapper">
+
+<mat-table [dataSource]="tracks">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+    <mat-cell *matCellDef="let sound">{{ sound.id }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Наименование звука</mat-header-cell>
+    <mat-cell *matCellDef="let sound">{{ sound.name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="fileName">
+    <mat-header-cell *matHeaderCellDef>Имя файла звукозаписи</mat-header-cell>
+    <mat-cell *matCellDef="let sound">{{ sound.fileName }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['id', 'name', 'fileName']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['id', 'name', 'fileName']; let i = index"
+           (click)="playSound(row.fileName, i)"
+           [ngClass]="{'selected': i === selectedRowIndex}">
+  </mat-row>
+  </mat-table>
+
+
+  <div *ngIf="showPlayer" class="player" [@fadeInOut]>
+    <span class="track-title">{{selectedSound}}
+      <button mat-icon-button class="close-button"  (click)="clearSelection()">
+      <mat-icon aria-label="Close">close</mat-icon>
+    </button>
+    </span>
+
+    <audio controls autoplay style="width: 600px"  #audioPlayer>
+      <source [src]="playSource" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+  </div></div>
